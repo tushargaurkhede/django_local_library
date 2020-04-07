@@ -1,0 +1,23 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+	<h1>Book List</h1>
+	{% if book_list %}
+	<ul>
+	  {% for book in book_list %}
+		<li>
+			<a href="{{ book.get_absolute_url }}">{{ book.title }}</a> <a href="{% url 'author-detail' book.author.pk %}">({{book.author}})</a>
+			{% if user.is_staff %}
+				<a href="{% url 'book_update' book.pk %}"><font color="red">(Update)</font></a>
+				<a href="{% url 'book_delete' book.pk %}"><font color="red">(Delete)</font></a>
+			{% endif %}	
+		</li>
+	  {% endfor %}	
+	</ul>
+	{% else %}
+		<p>There are no books in the library.</p>
+	{% endif %}
+	{% if user_is.staff %}
+		<button><a href="{% url 'book_create' %}">Create Book</a></button>
+	{% endif %}	
+{% endblock %}		
